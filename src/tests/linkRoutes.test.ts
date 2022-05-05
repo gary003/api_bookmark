@@ -1,22 +1,21 @@
-// import { assert } from "chai"
-// import { request } from "supertest"
-// import app from "../src/app"
+import chai from "chai"
+import request from "supertest"
+import app from "../app"
 
 describe("API bookmark tests", () => {
   describe("route > link > GET", () => {
     it("should return an array", (done) => {
       // with Mocha don't use return (return request(app)) !
-      // request(app)
-      //   .get("/api/link")
-      //   .set("Accept", "application/json")
-      //   .expect("Content-Type", /json/)
-      //   .end((err, result) => {
-      //     console.log(result)
-      //     if (!!err) return done(err)
-      //     assert.isArray([12, 3])
-      //     done()
-      //   })
-      done()
+      request(app)
+        .get("/api/link")
+        .set("Accept", "application/json")
+        .expect("Content-Type", /json/)
+        .end((err, result) => {
+          console.log(result)
+          if (!!err) return done(err)
+          chai.assert.isArray(result)
+          done()
+        })
     })
   })
 
