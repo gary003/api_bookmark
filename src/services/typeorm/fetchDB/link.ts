@@ -67,6 +67,7 @@ export const updateLinkById = async (updatateData: Link) => {
   const { linkId, ...valuesToUpdate } = updatateData
 
   if (!linkId || !valuesToUpdate) throw new Error("Error - invalid data for update")
+  if ("linkType" in valuesToUpdate && !["photo", "video"].includes(valuesToUpdate.linkType)) throw new Error("Error - type of link unknown.")
 
   const connection = await connectionTypeORM().catch((err) => console.error(err))
 
