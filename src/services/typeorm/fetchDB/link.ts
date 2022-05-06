@@ -3,7 +3,7 @@ import { connectionTypeORM } from "../connectionFile"
 import { DateTime } from "luxon"
 
 export const getAllLinks = async () => {
-  const connection = await connectionTypeORM().catch((err) => console.error(""))
+  const connection = await connectionTypeORM().catch((err) => console.error(err))
 
   if (!connection || !connection.isConnected) throw new Error("Not Connected to database")
 
@@ -22,6 +22,8 @@ export const saveNewLink = async (link: Link) => {
   const connection = await connectionTypeORM().catch((err) => console.error(err))
 
   if (!connection || !connection.isConnected) throw new Error("Not Connected to database")
+
+  if (!["photo", "video"].includes(link.linkType)) throw new Error("Error - type of link unknown.")
 
   const newLink = new Link()
   newLink.linkType = link.linkType
@@ -72,11 +74,11 @@ export const deleteLinkById = async (linkId: number) => {
 
   if (!linkToDelete) throw new Error("Impossible to found the requested link to delete")
 
-  LinkRepository.delete(linkToDelete)
+  await LinkRepository.delete(linkToDelete)
 
   const result: Link | void = await LinkRepository.save(linkToDelete).catch((err) => console.log(err))
 
-  // await connection.close().catch((err) => console.log(err))
+  await connection.close().catch((err) => console.log(err))
 
   if (!result) throw new Error("Impossible to update delete_at for that link")
 

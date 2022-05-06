@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 import express from "express"
 import linkRoute from "./routes/link/index"
 import swaggerUi from "swagger-ui-express"

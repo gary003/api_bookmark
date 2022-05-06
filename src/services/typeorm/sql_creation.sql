@@ -1,8 +1,6 @@
-drop database mediadb;
-
-create database mediadb;
-
-use mediadb;
+-- drop database mediadb;
+-- create database mediadb;
+-- use mediadb;
 
 create table link(
   linkId int AUTO_INCREMENT,
