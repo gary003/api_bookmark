@@ -28,7 +28,10 @@ Etre sur un serveur avec ces librairies d'installées :
 Il faut tout d'abord cloner le repository :
 `git clone https://github.com/gary003/api_bookmark.git`
 
-Ensuite installer les dépendances:
+Entrer dans le dossier créer :
+`cd api_bookmark`
+
+Ensuite installer les dépendances :
 `npm install`
 
 Copier le fichier .env à la racine du projet (fournit séparemment).
