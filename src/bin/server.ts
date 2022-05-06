@@ -14,6 +14,7 @@ server.on("error", (error) => {
 
 server.on("listening", () => {
   console.log(`listen on ${port}`)
+  console.log(`Check out localhost:${port}/apiDoc for documentation routes.`)
 })
 
 server.listen(port)
