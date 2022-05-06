@@ -93,6 +93,23 @@ const swaggerJson = {
           },
         },
       },
+      put: {
+        tags: ["link"],
+        summary: "Update a link",
+        description: "Update a link from DB by its id",
+        parameters: [
+          {
+            in: "body",
+            name: "body",
+            description: "some link values to update",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Successfully get the requestesd link",
+          },
+        },
+      },
     },
     "/link/{linkId}": {
       get: {

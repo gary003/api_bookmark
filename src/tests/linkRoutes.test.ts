@@ -57,8 +57,28 @@ describe("API bookmark tests", () => {
     })
   })
 
+  describe("route > link > PUT", () => {
+    it("should update an existing link", (done) => {
+      request(app)
+        .put("/api/link")
+        .send({
+          linkId: testLinkId,
+          title: "new_title_video_test",
+        })
+        .set("Accept", "application/json")
+        .expect("Content-Type", /json/)
+        .end((err, result) => {
+          // console.log(result.body)
+          if (!!err) return done(err)
+          chai.assert.isNotEmpty(result.body)
+          testLinkId = result.body.linkId
+          done()
+        })
+    })
+  })
+
   describe("route > link > GET", () => {
-    it("should return an array", (done) => {
+    it("should return a single link", (done) => {
       // with Mocha don't use return (return request(app)) !
       request(app)
         .get("/api/link/" + testLinkId)

@@ -63,6 +63,32 @@ export const getLinkById = async (linkId: number) => {
   return result
 }
 
+export const updateLinkById = async (updatateData: Link) => {
+  const { linkId, ...valuesToUpdate } = updatateData
+
+  if (!linkId || !valuesToUpdate) throw new Error("Error - invalid data for update")
+
+  const connection = await connectionTypeORM().catch((err) => console.error(err))
+
+  if (!connection || !connection.isConnected) throw new Error("Not Connected to database")
+
+  const LinkRepository = connection.getRepository(Link)
+
+  const linkToUpdate: Link | void = await LinkRepository.findOne({ linkId }).catch((err) => console.error(err))
+
+  if (!linkToUpdate) throw new Error("Impossible to found the requested link to update")
+
+  await LinkRepository.merge(linkToUpdate, { ...valuesToUpdate })
+
+  const result = await LinkRepository.save(linkToUpdate).catch((err) => console.log(err))
+
+  await connection.close().catch((err) => console.log(err))
+
+  if (!result) throw new Error("Impossible to update the values for that link")
+
+  return result
+}
+
 export const deleteLinkById = async (linkId: number) => {
   const connection = await connectionTypeORM().catch((err) => console.error(err))
 
@@ -70,17 +96,11 @@ export const deleteLinkById = async (linkId: number) => {
 
   const LinkRepository = connection.getRepository(Link)
 
-  const linkToDelete: Link | void = await LinkRepository.findOne({ linkId: linkId }).catch((err) => console.error(err))
-
-  if (!linkToDelete) throw new Error("Impossible to found the requested link to delete")
-
-  await LinkRepository.delete(linkToDelete)
-
-  const result: Link | void = await LinkRepository.save(linkToDelete).catch((err) => console.log(err))
+  const result = await LinkRepository.delete(linkId)
 
   await connection.close().catch((err) => console.log(err))
 
-  if (!result) throw new Error("Impossible to update delete_at for that link")
+  if (!result) throw new Error("Impossible to delete that link")
 
   return result
 }

@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express"
 import { Link } from "../../services/typeorm/entity/link"
-import { deleteLinkById, getAllLinks, getLinkById, saveNewLink } from "../../services/typeorm/fetchDB/link"
+import { deleteLinkById, getAllLinks, getLinkById, saveNewLink, updateLinkById } from "../../services/typeorm/fetchDB/link"
 
 const linkRouter = Router()
 
@@ -20,6 +20,13 @@ linkRouter
 
     return res.status(200).json(result)
   })
+  .put(async (req: Request, res: Response) => {
+    const result = await updateLinkById(req.body).catch((err) => console.log(err))
+
+    if (!result) return res.status(500).json(new Error("Impossible to update the link"))
+
+    return res.status(200).json(result)
+  })
 
 linkRouter
   .route("/:linkId")
@@ -31,7 +38,7 @@ linkRouter
     return res.status(200).json(result)
   })
   .delete(async (req: Request, res: Response) => {
-    const result: Link | void = await deleteLinkById(Number(req.params.linkId)).catch((err) => console.log(err))
+    const result = await deleteLinkById(Number(req.params.linkId)).catch((err) => console.log(err))
 
     if (!result) return res.status(500).json(new Error("Impossible to delete the link"))
 
