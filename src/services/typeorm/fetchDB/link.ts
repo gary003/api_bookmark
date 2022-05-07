@@ -1,8 +1,9 @@
 import { Link } from "../entity/link"
 import { connectionTypeORM } from "../connectionFile"
 import { DateTime } from "luxon"
+import { DeleteResult } from "typeorm"
 
-export const getAllLinks = async () => {
+export const getAllLinks = async (): Promise<Link[]> => {
   const connection = await connectionTypeORM().catch((err) => console.error(err))
 
   if (!connection || !connection.isConnected) throw new Error("Not Connected to database")
@@ -18,14 +19,14 @@ export const getAllLinks = async () => {
   return results
 }
 
-export const saveNewLink = async (link: Link) => {
+export const saveNewLink = async (link: Link): Promise<Link> => {
   const connection = await connectionTypeORM().catch((err) => console.error(err))
 
   if (!connection || !connection.isConnected) throw new Error("Not Connected to database")
 
   if (!["photo", "video"].includes(link.linkType)) throw new Error("Error - type of link unknown.")
 
-  const newLink = new Link()
+  const newLink: Link = new Link()
   newLink.linkType = link.linkType
   newLink.title = link.title
   newLink.URL = link.URL
@@ -47,7 +48,7 @@ export const saveNewLink = async (link: Link) => {
   return result
 }
 
-export const getLinkById = async (linkId: number) => {
+export const getLinkById = async (linkId: number): Promise<Link> => {
   const connection = await connectionTypeORM().catch((err) => console.error(err))
 
   if (!connection || !connection.isConnected) throw new Error("Not Connected to database")
@@ -63,7 +64,7 @@ export const getLinkById = async (linkId: number) => {
   return result
 }
 
-export const updateLinkById = async (updatateData: Link) => {
+export const updateLinkById = async (updatateData: Link): Promise<Link> => {
   const { linkId, ...valuesToUpdate } = updatateData
 
   if (!linkId || !valuesToUpdate) throw new Error("Error - invalid data for update")
@@ -90,14 +91,14 @@ export const updateLinkById = async (updatateData: Link) => {
   return result
 }
 
-export const deleteLinkById = async (linkId: number) => {
+export const deleteLinkById = async (linkId: number): Promise<DeleteResult> => {
   const connection = await connectionTypeORM().catch((err) => console.error(err))
 
   if (!connection || !connection.isConnected) throw new Error("Not Connected to database")
 
   const LinkRepository = connection.getRepository(Link)
 
-  const result = await LinkRepository.delete(linkId)
+  const result: DeleteResult = await LinkRepository.delete(linkId)
 
   await connection.close().catch((err) => console.log(err))
 
