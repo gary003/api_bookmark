@@ -1,17 +1,12 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm"
 
-enum media {
-  video = "video",
-  photo = "photo",
-}
-
 @Entity()
 export class Link {
   @PrimaryGeneratedColumn()
   linkId: number
 
   @Column("text")
-  linkType: media.photo | media.video
+  linkType: string
 
   @Column("text")
   URL: string
