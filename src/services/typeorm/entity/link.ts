@@ -29,11 +29,11 @@ export class Link {
   thumbnail: string
 
   @Column("text")
-  height: string
+  height: number
 
   @Column("text")
-  width: string
+  width: number
 
   @Column("text")
-  duration: string
+  duration: number
 }

@@ -35,7 +35,7 @@ export const saveNewLink = async (link: Link): Promise<Link> => {
   newLink.thumbnail = link.thumbnail
   newLink.height = link.height
   newLink.width = link.width
-  newLink.duration = link.duration
+  newLink.duration = link.linkType === "video" ? link.duration || 0 : null
 
   const LinkRepository = connection.getRepository(Link)
 
