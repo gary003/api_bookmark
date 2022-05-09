@@ -15,7 +15,7 @@ git repository : `https://github.com/gary003/api_bookmark.git`
 - Documentation API avec OpenAPI/swagger.
 - Tests avec mocha, supertest et chai.
 
-## Dépendances
+## Dépendances Système
 
 Etre sur un serveur avec ces librairies d'installées :
 
